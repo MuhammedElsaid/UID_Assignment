@@ -1,9 +1,9 @@
-enum Priority {
+export enum Priority {
     Low,
     Medium,
     High,
-    VeryHight,
-    critical
+    VeryHigh,
+    Critical
 }
 
 export class Task {
@@ -11,11 +11,13 @@ export class Task {
     name: string;
     description: string;
     priority: Priority;
+    isFinished: boolean;
 
     constructor() {
         this.uid = 0;
         this.description = '';
         this.name = '';
+        this.isFinished = false;
         this.priority = Priority.Low;
     }
 }

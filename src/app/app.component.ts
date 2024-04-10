@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { Task } from './Task';
+import { Task, Priority } from './Task';
 
 
 @Component({
@@ -35,14 +35,11 @@ export class AppComponent implements OnInit {
   }
 
   onDelete(item: Task) {
-    const isDelet = confirm('You want to delete this task?');
-    if (isDelet) {
-      const currentRecord = this.taskList.findIndex(
-        (m) => m.uid === this.taskObject.uid
-      );
-      this.taskList.splice(currentRecord, 1);
-      localStorage.setItem('localItem', JSON.stringify(this.taskList));
-    }
+    const currentRecord = this.taskList.findIndex(
+      (m) => m.uid === this.taskObject.uid
+    );
+    this.taskList.splice(currentRecord, 1);
+    localStorage.setItem('localItem', JSON.stringify(this.taskList));
   }
 
   onEdit(item: Task) {
@@ -67,7 +64,7 @@ export class AppComponent implements OnInit {
   saveTask() {
 
     const isLocalPresent = localStorage.getItem('localItem');
-    if (isLocalPresent != null) {
+    if (isLocalPresent) {
       const oldArray = JSON.parse(isLocalPresent);
       this.taskObject.uid = oldArray.length + 1;
       oldArray.push(this.taskObject);
@@ -83,4 +80,15 @@ export class AppComponent implements OnInit {
 
     this.closeModel();
   }
+
+  toggleFinished(item: Task) {
+    const currentTask = this.taskList.find(
+      (m) => m.uid === item.uid
+    );
+
+    currentTask!.isFinished = !currentTask!.isFinished;
+    localStorage.setItem('localItem', JSON.stringify(this.taskList));
+  }
+
+  prio = Priority;
 }

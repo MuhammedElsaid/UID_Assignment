@@ -1,88 +1,105 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">Task Manager</a>
+  </div>
+</nav>
+
 <div class="container">
-  <div class="row pt-3">
-    <div class="col-6">
-      <h4>tasks</h4>
-    </div>
-    <div class="col-6 text-end">
-      <button class="btn btn-dark" (click)="openModel()">Add new</button>
-    </div>
-  </div>
-  @if (taskList.length !== 0) {
-  <div class="row">
-    @for (item of taskList; track $index) {
-    <div class="col-3">
-      <div class="card">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-6">
-              Name: {{item.name}}
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <p> {{item.description}}</p>
-        </div>
-        <div class="card-footer text-center">
-          <div class="row">
-            <div class="col-6">
-              <small>Priority: {{item.priority}}</small>
-            </div>
-            <div class="col-6">
-              <button class="btn btn-sm btn-light" (click)="onEdit(item)">update</button>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(item)">remove</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    }
-  </div>
-  } @else {
-  <div class="row">
-    <div class="col-12 p-4 text-center">
-      <p>No tasks were found. Create a new task</p>
-    </div>
-  </div>
-  }
-
-</div>
-
-
-<div class="modal" id="modal" #modal>
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Create new task</h4>
-        <button type="button" class="btn-close" (click)="closeModel()"></button>
-      </div>
-      <div class="modal-body">
+  <div class="row mt-4">
+    <div class="col-12">
+      <div *ngIf="taskList.length > 0; else noTasks">
         <div class="row">
-          <div class="col-8">
-            <label for="">Name</label>
-            <input type="text" [(ngModel)]="taskObject.name" class="form-control" placeholder="Name">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <label for="">Description</label>
-            <input type="text" [(ngModel)]="taskObject.description" class="form-control" placeholder="Description">
-          </div>
-          <div class="col-6">
-            <label for="">Priority</label>
-            <input type="text" [(ngModel)]="taskObject.priority" class="form-control" placeholder="Priority">
+          <div *ngFor="let item of taskList; let i = index" class="col-md-4 mb-4">
+            <div class="card h-100">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-6">
+                    {{item.name}}
+                  </div>
+                  <div class="col-6 text-end">
+                    <input type="checkbox" [checked]="item.isFinished" (change)="toggleFinished(item)">
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ item.description }}</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Priority: {{ prio[item.priority] }}</small>
+                <div class="float-end">
+                  <button class="btn btn-sm btn-light me-2" (click)="onEdit(item)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                    </svg>
+                  </button>
+                  <button class="btn btn-sm btn-danger" (click)="onDelete(item)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-trash" viewBox="0 0 16 16">
+                      <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                      <path
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="closeModel()">close</button>
-        @if (taskObject.uid ==0) {
-        <button type="button" class="btn btn-primary" (click)="saveTask()">save task</button>
-        } @else {
-        <button type="button" class="btn btn-success" (click)="updateTask()">update task</button>
-        }
+      <ng-template #noTasks>
+        <div class="text-center">
+          <p>It's empty here</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 
+  <div class="modal" id="modal" #modal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-light">
+          <h5 class="modal-title">Task information</h5>
+          <button type="button" class="btn-close btn-close-white" (click)="closeModel()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="taskName" class="form-label">Name</label>
+            <input type="text" [(ngModel)]="taskObject.name" class="form-control" id="taskName"
+              placeholder="Enter task name">
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="taskDescription" class="form-label">Description</label>
+              <input type="text" [(ngModel)]="taskObject.description" class="form-control" id="taskDescription"
+                placeholder="Enter task description">
+            </div>
+            <div class="col">
+              <label for="taskPriority" class="form-label">Priority</label>
+              <select class="form-select" [(ngModel)]="taskObject.priority" id="taskPriority">
+                <option value="0">Low</option>
+                <option value="1">Medium</option>
+                <option value="2">High</option>
+                <option value="3">Very High</option>
+                <option value="4">Critical</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+          <button *ngIf="taskObject.uid == 0; else updateBtn" type="button" class="btn btn-primary"
+            (click)="saveTask()">Save</button>
+          <ng-template #updateBtn>
+            <button type="button" class="btn btn-success" (click)="updateTask()">Update</button>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+
+  <button class="btn btn-dark position-fixed bottom-0 end-0 m-4" style="z-index: 1000;" (click)="openModel()">New
+    Task</button>
