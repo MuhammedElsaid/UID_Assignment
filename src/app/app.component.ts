@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { Task } from './Task';
+import { Task, Priority } from './Task';
 
 
 @Component({
@@ -35,14 +35,11 @@ export class AppComponent implements OnInit {
   }
 
   onDelete(item: Task) {
-    const isDelet = confirm('You want to delete this task?');
-    if (isDelet) {
-      const currentRecord = this.taskList.findIndex(
-        (m) => m.uid === this.taskObject.uid
-      );
-      this.taskList.splice(currentRecord, 1);
-      localStorage.setItem('localItem', JSON.stringify(this.taskList));
-    }
+    const currentRecord = this.taskList.findIndex(
+      (m) => m.uid === this.taskObject.uid
+    );
+    this.taskList.splice(currentRecord, 1);
+    localStorage.setItem('localItem', JSON.stringify(this.taskList));
   }
 
   onEdit(item: Task) {
@@ -83,4 +80,6 @@ export class AppComponent implements OnInit {
 
     this.closeModel();
   }
+
+  prio = Priority;
 }

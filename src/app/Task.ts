@@ -1,9 +1,9 @@
-enum Priority {
+export enum Priority {
     Low,
     Medium,
     High,
-    VeryHight,
-    critical
+    VeryHigh,
+    Critical
 }
 
 export class Task {
