@@ -10,6 +10,7 @@ export class Task {
     uid: number;
     name: string;
     description: string;
+    dueDate: string;
     priority: Priority;
     isFinished: boolean;
 
@@ -17,6 +18,7 @@ export class Task {
         this.uid = 0;
         this.description = '';
         this.name = '';
+        this.dueDate = '';
         this.isFinished = false;
         this.priority = Priority.Low;
     }
